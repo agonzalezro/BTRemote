@@ -130,7 +130,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     	SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
         List<Sensor> sensors = sm.getSensorList(Sensor.TYPE_ACCELEROMETER);        
         if (sensors.size() > 0) {
-        	sm.registerListener(this, sensors.get(0), SensorManager.SENSOR_DELAY_NORMAL);
+        	sm.registerListener(this, sensors.get(0), SensorManager.SENSOR_DELAY_GAME);
         }
     }
     
@@ -191,42 +191,36 @@ public class MainActivity extends Activity implements SensorEventListener {
 		int offset_speed = range_speed / 13; // 13 are the degrees of freedom in the speed (from -3 to 10)
 		
 		int range_direction = max_servo_direction - min_servo_direction;
-		int offset_direction = range_direction / 14; // 14 are the degrees of freedom in the direction
-		
-		int speed = Math.round(
-				min_servo_speed + (z * offset_speed));
-		
-		int direction = Math.round(
-				min_servo_direction + (y * offset_direction));
+		int offset_direction = range_direction / 15; // 15 are the degrees of freedom in the direction
 		
 		int[] to_send = {previous_speed, previous_direction};
 	
-		if ((z >= 0) && (speed != previous_speed)) {
-			previous_speed = speed;
-			to_send[0] = speed;
+		if (z >= 0) {
+			to_send[0] = Math.round(min_servo_speed + (z * offset_speed));
+			previous_speed = to_send[0];
 		}
 		
-		if ((y >= 0) && (direction != previous_direction)) {
-			previous_direction = direction;
-			to_send[1] = direction;
+		if (y >= 0) {
+			to_send[1] = Math.round(min_servo_direction + (y * offset_direction));;
+			previous_direction = to_send[1];
 		}
 		
 		
-		try {
-			if (connection != null) {
+		if (connection != null) {
+			try {			
 				bt_connection.setChecked(true);
-			    connection.getOutputStream().write((char) to_send[0]);
-			    connection.getOutputStream().write((char) to_send[1]);
-			    //connection.getOutputStream().write((char) '\n');
+				connection.getOutputStream().write((char) to_send[0]);
+				connection.getOutputStream().write((char) to_send[1]);
+				//connection.getOutputStream().write((char) '\n');
+			} catch (IOException e) {
+				bt_connection.setChecked(false);
+				// FIXME: Deactivated because call this without any delay breaks the app
+				//setupBluetooth();
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			bt_connection.setChecked(false);
-			// FIXME: Deactivated because call this without any delay breaks the app
-			//setupBluetooth();
-			e.printStackTrace();
 		}
 		
-		String message = "Direction: " + direction + " & speed: "+ speed;
+		String message = "Speed: " + to_send[0] + " & direction: "+ to_send[1];
 		((TextView) findViewById(R.id.position)).setText(message);
 	}
 }
