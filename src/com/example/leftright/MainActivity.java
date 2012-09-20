@@ -1,7 +1,6 @@
 package com.example.leftright;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -24,7 +23,9 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+
 public class MainActivity extends Activity implements SensorEventListener {
+	public Boolean ready = false;
     private float z = 0, y = 0;
     
     private Integer min_servo_direction = 60;
@@ -52,13 +53,14 @@ public class MainActivity extends Activity implements SensorEventListener {
         setTheme(android.R.style.Theme_DeviceDefault_NoActionBar_Fullscreen);
         setContentView(R.layout.activity_main);
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        
+        setupButtons();
+        setupTrimmers();
     }
     
     @Override
     protected void onResume() {
         super.onResume();
-        setupButtons();
-        setupTrimmers();
         setupAcelerometer();
         setupBluetooth();
     }
@@ -128,10 +130,9 @@ public class MainActivity extends Activity implements SensorEventListener {
     
     private void setupAcelerometer() {
     	SensorManager sm = (SensorManager) getSystemService(SENSOR_SERVICE);
-        List<Sensor> sensors = sm.getSensorList(Sensor.TYPE_ACCELEROMETER);        
-        if (sensors.size() > 0) {
-        	sm.registerListener(this, sensors.get(0), SensorManager.SENSOR_DELAY_GAME);
-        }
+        SensorAsyncTask sat = new SensorAsyncTask();
+        sat._instance = this;
+        sat.execute(sm);
     }
     
     private void setupBluetooth() {
@@ -184,6 +185,9 @@ public class MainActivity extends Activity implements SensorEventListener {
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
 	public void onSensorChanged(SensorEvent event) {
+		if (!ready)
+			return;
+		
 		y = event.values[1] + 7; //7 is the minimal angle from the left 
 		z = event.values[2] + 3; //The range on the mobile is from -3 to 7, this will do the calculation easier :)
 		
@@ -208,12 +212,12 @@ public class MainActivity extends Activity implements SensorEventListener {
 		
 		if (connection != null) {
 			try {			
-				bt_connection.setChecked(true);
+				//bt_connection.setChecked(true);
 				connection.getOutputStream().write((char) to_send[0]);
 				connection.getOutputStream().write((char) to_send[1]);
 				//connection.getOutputStream().write((char) '\n');
 			} catch (IOException e) {
-				bt_connection.setChecked(false);
+				//bt_connection.setChecked(false);
 				// FIXME: Deactivated because call this without any delay breaks the app
 				//setupBluetooth();
 				e.printStackTrace();
