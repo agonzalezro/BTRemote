@@ -1,8 +1,6 @@
 package com.example.leftright;
 
 import java.io.IOException;
-import java.util.Set;
-import java.util.UUID;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -11,11 +9,9 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -41,7 +37,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     private Integer previous_direction = 0;
     
     private Integer REQUEST_ENABLE_BT = 1;
-	private BluetoothSocket connection = null;
+	public BluetoothSocket connection = null;
 	
 	private SeekBar min_speed_seekbar = null;
 	private SeekBar max_speed_seekbar = null;
@@ -147,22 +143,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 			Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 			startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
 		}
-
-		Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
-		if (pairedDevices.size() > 0) {
-			for (BluetoothDevice device : pairedDevices) {
-				if (device.getName().equals("SeeedBTSlave")) {
-				    try {
-					    connection = device.createRfcommSocketToServiceRecord(
-					    		UUID.fromString("00001101-0000-1000-8000-00805F9B34FB"));
-					    connection.connect();
-				    } catch (IOException e) {
-    					e.printStackTrace();
-    					Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
-	    			}
-		    	}
-			}
-		}
+		
+		BluetoothAsyncTask bat = new BluetoothAsyncTask();
+		bat._instance = this;
+		bat.execute(mBluetoothAdapter);
     }
     
     private void setupButtons() {
@@ -192,7 +176,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
 	public void onSensorChanged(SensorEvent event) {
-		if (!sensor_ready || !bt_ready)  // FIXME: I think that this is not needed, the listener will not be called without ready sensor lol
+		if (!sensor_ready || !bt_ready)
 			return;
 		
 		y = event.values[1] + 7; //7 is the minimal angle from the left
