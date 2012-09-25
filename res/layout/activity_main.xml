@@ -10,26 +10,34 @@
         android:layout_height="0dp"
         android:layout_weight="1" >
 
-        <ToggleButton
+        <Button
             android:id="@+id/connection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/app_name"
-            android:textOff="@string/connection"
-            android:textOn="@string/connection"
+            android:layout_gravity="top|left|center_horizontal"
+            android:layout_weight="0.3"
+            android:gravity="center_vertical|center_horizontal|top"
+            android:text="@string/connection"
             tools:ignore="NestedWeights" />
 
         <ToggleButton
             android:id="@+id/trimmers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_gravity="top|right|center_vertical"
+            android:layout_weight="0.3"
             android:text="@string/trimmers"
             android:textOff="Trimmers"
             android:textOn="Trimmers" />
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:text="@string/speed" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,6 +48,7 @@
             android:id="@+id/min_speed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:max="255"
             tools:ignore="NestedWeights" />
@@ -48,10 +57,42 @@
             android:id="@+id/max_speed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:max="255" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/txt_view_min_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/txt_view_max_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="0" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="bottom"
+        android:text="@string/direction" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -62,6 +103,7 @@
             android:id="@+id/min_direction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:max="255"
             tools:ignore="NestedWeights" />
@@ -70,8 +112,32 @@
             android:id="@+id/max_direction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:max="255" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/txt_view_min_direction"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="0" />
+
+        <TextView
+            android:id="@+id/txt_view_max_direction"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="0" />
 
     </LinearLayout>
 
@@ -79,7 +145,7 @@
         android:id="@+id/position"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_gravity="center"
+        android:layout_gravity="center_vertical|center"
         android:layout_weight="1"
         android:text="@string/loading"
         tools:context=".MainActivity" />
