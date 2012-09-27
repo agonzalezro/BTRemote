@@ -12,7 +12,11 @@ control a RC car with 2 servos (one for direction and one for velocity) using
 the BT communication of one Android device.
 
 This project is part of the OpenSeasson projects at
-[Paylogic](http://paylogic.nl).
+[Paylogic](http://paylogic.nl). BTW, you should check the [Software
+Arquitect](http://corporate.paylogic.nl/media/cms_page_media/59/Vacancy-Softwarearchitect_1.pdf)
+or the [Software
+Developer](http://corporate.paylogic.nl/media/cms_page_media/59/Vacancy-Softwaredeveloper_1.pdf)
+vacances if you want to work on a really nice place! :)
 
 
 TODO
