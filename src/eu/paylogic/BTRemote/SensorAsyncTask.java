@@ -7,7 +7,7 @@ import android.hardware.SensorManager;
 import android.os.AsyncTask;
 
 public class SensorAsyncTask extends AsyncTask<SensorManager, Void, Boolean> {
-	MainActivity _instance;
+	BTRemote _instance;
 	
 	@Override
 	protected Boolean doInBackground(SensorManager... sm) {

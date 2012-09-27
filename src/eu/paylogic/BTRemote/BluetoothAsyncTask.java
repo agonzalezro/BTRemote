@@ -9,7 +9,7 @@ import android.bluetooth.BluetoothDevice;
 import android.os.AsyncTask;
 
 public class BluetoothAsyncTask extends AsyncTask<BluetoothAdapter, Void, Boolean> {
-	MainActivity _instance;
+	BTRemote _instance;
 	
 	@Override
 	protected Boolean doInBackground(BluetoothAdapter... mBluetoothAdapter) {
