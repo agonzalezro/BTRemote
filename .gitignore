@@ -1,7 +1,10 @@
-*.apk
 *.ap_
 *.dex
 *.class
-bin/
 gen/
 local.properties
+bin/AndroidManifest.xml
+bin/classes
+bin/classes.dex
+bin/res
+bin/resources.ap_

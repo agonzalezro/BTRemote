@@ -37,8 +37,7 @@ public class BTRemote extends Activity implements SensorEventListener {
     private Integer min_servo_speed = 50;
     private Integer max_servo_speed = 127;
     
-    private Integer previous_speed = 0;
-    private Integer previous_direction = 0;
+    private int[] to_send = {0, 0};
     
     private Integer REQUEST_ENABLE_BT = 1;
 	public BluetoothSocket connection = null;
@@ -200,34 +199,26 @@ public class BTRemote extends Activity implements SensorEventListener {
 		
 		int range_direction = max_servo_direction - min_servo_direction;
 		int offset_direction = range_direction / 15; // 15 are the degrees of freedom in the direction
-		
-		int[] to_send = {previous_speed, previous_direction};
 	
-		if (z >= 0) {
+		if (z >= 0)
 			to_send[0] = Math.round(min_servo_speed + (z * offset_speed));
-			previous_speed = to_send[0];
-		}
 		
-		if (y >= 0) {
+		if (y >= 0)
 			to_send[1] = Math.round(min_servo_direction + (y * offset_direction));;
-			previous_direction = to_send[1];
-		}
 		
 		String message = "Speed: " + to_send[0] + " & direction: "+ to_send[1];
 		((TextView) findViewById(R.id.position)).setText(message);
 		
 		if (connection != null) {
 			try {			
-				//bt_connection.setChecked(true);
 				connection.getOutputStream().write((byte) to_send[0]);
 				connection.getOutputStream().write((byte) to_send[1]);
 				connection.getOutputStream().flush();
-				//connection.getOutputStream().write((char) '\n');
 			} catch (IOException e) {
-				//bt_connection.setChecked(false);
-				// FIXME: Deactivated because call this without any delay breaks the app
-				if (!bt_loading)
+				if (!bt_loading) {
+					// If the async task that load the BT is not working, then this can be retry
 					setupBluetooth();
+				}
 				e.printStackTrace();
 				toast.setText(e.getMessage());
 				toast.show();
