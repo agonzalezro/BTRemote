@@ -13,3 +13,11 @@ the BT communication of one Android device.
 
 This project is part of the OpenSeasson projects at
 [Paylogic](http://paylogic.nl).
+
+
+TODO
+----
+
+- Refactor java code... a long time without develop Java :D
+- Improve app performance, sometimes it freezes loading BT.
+- Remove extra files added by eclipse but not needed to be tracked.
