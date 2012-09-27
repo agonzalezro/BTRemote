@@ -5,7 +5,7 @@ Here you will find the source code for arduino at
 [``ardu.ino``](https://github.com/agonzalezro/BTRemote/blob/master/ardu.ino)
 and for the Android application (all the rest of the files). You can download the
 compiled version at
-[``bin/BTRemote.apk``](https://raw.github.com/agonzalezro/BTRemote/blob/master/bin/BTRemote.apk).
+[``bin/BTRemote.apk``](https://github.com/agonzalezro/BTRemote/blob/master/bin/BTRemote.apk?raw=true).
 
 The title of the project says almost all about the project. The ideas is
 control a RC car with 2 servos (one for direction and one for velocity) using
